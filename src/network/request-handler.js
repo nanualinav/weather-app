@@ -1,4 +1,4 @@
-import API_KEY from './apikey.js'
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY
 const baseUrl = 'https://api.openweathermap.org/data/2.5'
 
 export const fetchCurrentWeather = async (latitude, longitude) => {
