@@ -17,7 +17,8 @@ import {
   TabList,
   Tab, 
   TabPanels, 
-  TabPanel
+  TabPanel,
+  Spinner
 } from '@chakra-ui/react'
 
 const App = () => {
@@ -106,7 +107,22 @@ const App = () => {
             align="center"
             mt="60px"
             maxWidth="80%">
-            {showLoading}
+            {showLoading && (
+            <Box
+              position="fixed"
+              top="0"
+              left="0"
+              width="100%"
+              height="100vh"
+              backgroundColor="rgba(255, 255, 255, 0.8)"
+              zIndex="999"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Spinner size="xl" color="purple.500" />
+            </Box>
+          )}
             <HStack maxW="xl" spacing={5}>
                 <Input
                     variant="flushed"
