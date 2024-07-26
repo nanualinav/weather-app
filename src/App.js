@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import WeatherInfo from './partials/weather-info'
-import { filterForecasts, tabDate } from './partials/date-formatter'
-import { fetchCurrentWeather, fetchWeather } from './network/request-handler'
 import { 
   ChakraProvider,
   Box,
@@ -10,16 +7,13 @@ import {
   Button,
   Input,
   HStack,
-  Heading,
+  VStack,
   Flex,
-  Spacer,
-  Tabs,
-  TabList,
-  Tab, 
-  TabPanels, 
-  TabPanel,
-  Spinner
+  Spinner,
 } from '@chakra-ui/react'
+import { filterForecasts, tabDate } from './partials/date-formatter'
+import { fetchCurrentWeather, fetchWeather } from './network/request-handler'
+import WeatherBox from './partials/weather-box';
 
 const App = () => {
     const [weatherData, setWeatherData] = useState(null)
@@ -29,6 +23,12 @@ const App = () => {
     const [location, setLocation] = useState('')
     const [error, setError] = useState('')
     const [showLoading, setShowLoading] = useState(false)
+    
+    const [selectedTab, setSelectedTab] = useState({
+        today: 'morning',
+        tomorrow: 'morning',
+        thirdDay: 'morning'
+    })
 
     const fetchCurrentLocationWeather = async () => {
         try {
@@ -66,7 +66,6 @@ const App = () => {
     }, [])
 
     const handleSearch = async () => {
-        console.log('Searching for:', location)
         setError('')
 
         if (!/^[a-zA-Z\s]+$/.test(location)) {
@@ -85,7 +84,6 @@ const App = () => {
             setShowLoading(false)
             setError('')
 
-            setShowLoading(false)
         } catch (error) {
             console.error('Error fetching weather data:', error)
 
@@ -101,116 +99,115 @@ const App = () => {
         }
     }
 
-  return (
-    <ChakraProvider>
-      <Container
-            align="center"
-            mt="60px"
-            maxWidth="80%">
-            {showLoading && (
-            <Box
-              position="fixed"
-              top="0"
-              left="0"
-              width="100%"
-              height="100vh"
-              backgroundColor="rgba(255, 255, 255, 0.8)"
-              zIndex="999"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
+    const getCurrentData = (data, timeOfDay) => {
+        const dataSet = {
+            morning: data?.morning?.[0],
+            afternoon: data?.afternoon?.[0],
+            evening: data?.evening?.[0]
+        }
+        return dataSet[timeOfDay] || dataSet.afternoon || dataSet.evening
+    }
+
+    const currentData = {
+        today: getCurrentData(todayData, selectedTab.today),
+        tomorrow: getCurrentData(tomorrowData, selectedTab.tomorrow),
+        thirdDay: getCurrentData(thirdDayData, selectedTab.thirdDay)
+    }
+    
+    return (
+        <ChakraProvider>
+            <Box 
+                w="100vw"
+                minHeight="100vh"
+                backgroundColor="#152238"
+                display="flex"
+                alignItems="top"
             >
-              <Spinner size="xl" color="purple.500" />
-            </Box>
-          )}
-            <HStack maxW="xl" spacing={5}>
-                <Input
-                    variant="flushed"
-                    focusBorderColor="purple.400"
-                    placeholder="City to find..."
-                    onChange={(e) => setLocation(e.target.value)}
-                    value={location}
-                />
-                <Button
-                    colorScheme="purple"
-                    size="lg"
-                    boxShadow='md'
-                    onClick={handleSearch}
-                >SEARCH
-                </Button>
-            </HStack>
-            {error && <Text color="red" fontSize="sm">{String(error)}</Text>}
-            <Heading as="h3" mt="60px">
-                {weatherData?.city?.name && `Weather in ${weatherData.city.name}`}
-            </Heading>
-            <Box mt="40px" border="1px solid purple">
-                <Tabs isLazy isFitted variant="unstyled">
-                    <TabList
-                        h="60px" color="gray.200"
-                        bg="purple.400">
-                        <Tab
-                            _selected={{ borderBottom: "4px solid yellow", color: "white" }}
-                        >{tabDate(0)}
-                        </Tab>
-                        <Tab
-                            _selected={{ borderBottom: "4px solid yellow", color: "white" }}
-                        >{tabDate(1)}
-                        </Tab>
-                        <Tab
-                            _selected={{ borderBottom: "4px solid yellow", color: "white" }}
-                        >{tabDate(2)}
-                        </Tab>
-                    </TabList>
-                    <Flex fontSize="lg" fontWeight="bold" textAlign="center">
-                        <Text
-                            w="170px" h="45px">Time</Text>
-                        <Spacer />
-                        <Text
-                            w="170px" h="45px">Weather</Text>
-                        <Spacer />
-                        <Text
-                            w="170px" h="45px">Description</Text>
-                        <Spacer />
-                        <Text
-                            w="170px" h="45px">Temperature</Text>
-                        <Spacer />
-                        <Text
-                            w="170px" h="45px">Atm.pressure, mmHg</Text>
-                        <Spacer />
-                        <Text
-                            w="170px" h="45px">Humidity air, %</Text>
-                        <Spacer />
-                        <Text
-                            w="170px" h="45px">Win, m/s</Text>
-                    </Flex>
-                    <TabPanels>
+                <Container
+                    align="left"
+                    maxWidth="100%"
+                >
+                    <VStack maxW="2xl" align="left" p="3rem">
+                    <HStack  spacing={5} mb="1rem">
+                        <Input
+                            variant="flushed"
+                            focusBorderColor="#00ffd9"
+                            placeholder="City to find..."
+                            color="white"
+                            onChange={(e) => setLocation(e.target.value)}
+                            value={location}
+                        />
+                        <Button
+                            backgroundColor="white"
+                            color="#152238"
+                            size="sm"
+                            boxShadow='lg'
+                            onClick={handleSearch}
+                        >SEARCH
+                        </Button>
+                    </HStack>
+                    {showLoading && (
+                        <Box
+                            width="100%"
+                            zIndex="999"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <Spinner size="xl" color="pink.200" />
+                        </Box>
+                    )}
+                        {error && <Text color="red.200" fontSize="sm">{String(error)}</Text>}
+                    </VStack>
+                    <Text fontWeight="bold" fontSize="4xl" pl="3rem" pt="2rem" color="white">
+                        {weatherData?.city?.name && `Weather in ${weatherData.city.name}`}
+                    </Text>
+                    <Flex
+                        direction={{ base: 'column', md: 'row' }}
+                        spacing={{ base: 5, md: 0 }}
+                        justifyContent="space-between"
+                        justify="center"
+                        p="3rem"
+                        gap={5}
+                    >
                         {todayData && (
-                            <TabPanel>
-                                <WeatherInfo
-                                    data={todayData}>
-                                </WeatherInfo>
-                            </TabPanel>
+                            <Box mb={{ base: 4, md: 0 }}>
+                                <WeatherBox
+                                    title = "Today"
+                                    currentData={currentData.today}
+                                    selectedTab={selectedTab}
+                                    setSelectedTab={setSelectedTab}
+                                />
+                            </Box>
+                           
                         )}
                         {tomorrowData && (
-                            <TabPanel>
-                                <WeatherInfo
-                                    data={tomorrowData}>
-                                </WeatherInfo>
-                            </TabPanel>
+                            <Box mb={{ base: 4, md: 0 }}>
+                                <WeatherBox
+                                    title="Tomorrow"
+                                    currentData={currentData.tomorrow}
+                                    data={tomorrowData}
+                                    selectedTab={selectedTab}
+                                    setSelectedTab={setSelectedTab}
+                                />
+                            </Box>
                         )}
                         {thirdDayData && (
-                            <TabPanel>
-                                <WeatherInfo
-                                    data={thirdDayData}>
-                                </WeatherInfo>
-                            </TabPanel>
+                            <Box mb={{ base: 4, md: 0 }}>
+                                < WeatherBox
+                                    title={tabDate(2)}  
+                                    currentData={currentData.thirdDay}
+                                    data={thirdDayData}
+                                    setSelectedTab={setSelectedTab}
+                                    isThirdDay
+                                />
+                            </Box>
                         )}
-                    </TabPanels>
-                </Tabs>
+                    </Flex>
+                </Container>
             </Box>
-        </Container >
-    </ChakraProvider>  
-  )
+        </ChakraProvider>
+    )
 }
 
-export default App;
+export default App
