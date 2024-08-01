@@ -165,13 +165,13 @@ const App = () => {
                     <Flex
                         direction={{ base: 'column', md: 'row' }}
                         spacing={{ base: 5, md: 0 }}
-                        justifyContent="space-between"
-                        justify="center"
+                        justifyContent={{ base: "center", md: "flex-start" }}
+                        justify="flex-start"
                         p="3rem"
                         gap={5}
                     >
                         {todayData && (
-                            <Box mb={{ base: 4, md: 0 }}>
+                            <Box mb={{ base: 4, md: 0 }} flex="1">
                                 <WeatherBox
                                     title = "Today"
                                     currentData={currentData.today}
@@ -182,7 +182,7 @@ const App = () => {
                            
                         )}
                         {tomorrowData && (
-                            <Box mb={{ base: 4, md: 0 }}>
+                            <Box mb={{ base: 4, md: 0 }} flex="1">
                                 <WeatherBox
                                     title="Tomorrow"
                                     currentData={currentData.tomorrow}
@@ -193,7 +193,7 @@ const App = () => {
                             </Box>
                         )}
                         {thirdDayData && (
-                            <Box mb={{ base: 4, md: 0 }}>
+                            <Box mb={{ base: 4, md: 0 }} flex="1">
                                 < WeatherBox
                                     title={tabDate(2)}  
                                     currentData={currentData.thirdDay}
