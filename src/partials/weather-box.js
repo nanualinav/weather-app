@@ -24,16 +24,18 @@ import {
 
     return (
         <Box
-            border=".5px solid white" 
+            border="1px solid rgba(255, 255, 255, 0.22)" 
             borderRadius="3rem"
             w={{ base: '100%', md: '30%' }}
-            bg="rgba(255, 255, 255, .3)"
-            p={4}
+            bg="rgba(255, 255, 255, 0.06)"
+            boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
+            backdropFilter="blur(3.4px)"
             position="relative"
             display="flex"
             flexDirection="column"
             align="left"
             minWidth="24rem"
+            p={4}
         >
             <Box p={4} flex="1">
                 <Text fontSize="2xl" fontWeight="bold" color="pink.200">
