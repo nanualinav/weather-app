@@ -124,10 +124,9 @@ const App = () => {
                 alignItems="top"
             >
                 <Container
-                    align="left"
                     maxWidth="100%"
                 >
-                    <VStack maxW="2xl" align="left" p="3rem">
+                    <VStack maxW="2xl" align="left" p={{base: "2rem", md:"4rem"}}>
                     <HStack  spacing={5} mb="1rem">
                         <Input
                             variant="flushed"
@@ -159,15 +158,15 @@ const App = () => {
                     )}
                         {error && <Text color="red.200" fontSize="sm">{String(error)}</Text>}
                     </VStack>
-                    <Text fontWeight="bold" fontSize="4xl" pl="3rem" pt="2rem" color="white">
+                    <Text fontWeight="bold" fontSize="4xl" pl={{base: "2rem", md: "4rem"}} pt="2rem" color="white">
                         {weatherData?.city?.name && `Weather in ${weatherData.city.name}`}
                     </Text>
                     <Flex
                         direction={{ base: 'column', md: 'row' }}
                         spacing={{ base: 5, md: 0 }}
                         justifyContent={{ base: "center", md: "flex-start" }}
-                        justify="flex-start"
-                        p="3rem"
+                        pt="2rem"
+                        pl={{base: 0, md: "4rem"}}
                         wrap="wrap"
                         gap={{ base: "1rem", md: "1.5rem" }}
                     >

@@ -54,19 +54,19 @@ import {
                         alt="Weather Icon"
                     />
                 </Box>
-                <Text fontSize={{ base: '4xl', md: '6xl' }} fontWeight="700" color="white">
+                <Text fontSize={{ base: '5xl', md: '6xl' }} fontWeight="700" color="white">
                     {(currentData?.main?.temp - 273.15).toFixed(0)}°C
                 </Text>
-                <Text fontSize={{ base: 'xl', md: '4xl' }} lineHeight={1.1} pb="1rem" fontWeight="bold" color="white">
+                <Text fontSize={{ base: '2xl', md: '4xl' }} lineHeight={1.1} pb="1rem" fontWeight="bold" color="white">
                     {capitalizeFirstLetter(currentData?.weather?.[0]?.description || 'No data available')}
                 </Text>
-                <Text fontSize={{ base: 'xs', md: 'md' }} color="white">
+                <Text fontSize={{ base: 'md', md: 'lg' }} color="white">
                     <span>Pressure:</span> {currentData?.main?.pressure} hPa
                 </Text>
-                <Text fontSize={{ base: 'xs', md: 'md' }} color="white">
+                <Text fontSize={{ base: 'md', md: 'lg' }} color="white">
                     <span>Humidity:</span> {currentData?.main?.humidity}%
                 </Text>
-                <Text fontSize={{ base: 'xs', md: 'md' }} color="white">
+                <Text fontSize={{ base: 'md', md: 'lg' }} color="white">
                     <span>Wind Speed:</span> {currentData?.wind?.speed} m/s
                 </Text>
             </Box>
@@ -77,7 +77,7 @@ import {
                     onChange={handleTabChange}
                     isFitted
                     variant="soft-rounded"
-                    size={{ base: 'sm', md: 'md' }}
+                    size={{ base: 'md', md: 'lg' }}
                 >
                     <TabList pb="1rem">
                         <Tab color="white">Morning</Tab>
