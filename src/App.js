@@ -168,6 +168,8 @@ const App = () => {
                         justifyContent={{ base: "center", md: "flex-start" }}
                         justify="flex-start"
                         p="3rem"
+                        wrap="wrap"
+                        gap={{ base: "1rem", md: "1.5rem" }}
                     >
                         {todayData && (
                             <Box mb={{ base: 4, md: 0 }} flex="1">

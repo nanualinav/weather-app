@@ -26,19 +26,20 @@ import {
         <Box
             border="1px solid rgba(255, 255, 255, 0.22)" 
             borderRadius="3rem"
-            w={{ base: '100%', md: '30%' }}
+            w={{ base: "100%", md: "30%" }}
+            maxW={{ base: '100%', md: "30%"}}
+            minW={{ base: "100%", md: "24rem"}}
             bg="rgba(255, 255, 255, 0.06)"
             boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
             backdropFilter="blur(3.4px)"
             position="relative"
             display="flex"
             flexDirection="column"
-            align="left"
-            minWidth="24rem"
+            mb={{ base: 4, md: 0}}
             p={4}
         >
             <Box p={4} flex="1">
-                <Text fontSize="2xl" fontWeight="bold" color="pink.200">
+                <Text fontSize={{base: 'sm', md: 'lg' }}  fontWeight="bold" color="pink.200">
                     {title}
                 </Text>
                 <Box
@@ -48,24 +49,24 @@ import {
                     p={2}
                 >
                     <Image
-                        boxSize="100px"
+                        boxSize={{ base: '60px', md: '100px' }}
                         src={`https://openweathermap.org/img/w/${currentData?.weather?.[0]?.icon || '01d'}.png`}
                         alt="Weather Icon"
                     />
                 </Box>
-                <Text fontSize="6xl" fontWeight="700" color="white">
+                <Text fontSize={{ base: '4xl', md: '6xl' }} fontWeight="700" color="white">
                     {(currentData?.main?.temp - 273.15).toFixed(0)}°C
                 </Text>
-                <Text fontSize="4xl" lineHeight={1.1} pb="1rem" fontWeight="bold" color="white">
+                <Text fontSize={{ base: 'xl', md: '4xl' }} lineHeight={1.1} pb="1rem" fontWeight="bold" color="white">
                     {capitalizeFirstLetter(currentData?.weather?.[0]?.description || 'No data available')}
                 </Text>
-                <Text fontSize="md" color="white">
+                <Text fontSize={{ base: 'xs', md: 'md' }} color="white">
                     <span>Pressure:</span> {currentData?.main?.pressure} hPa
                 </Text>
-                <Text fontSize="md" color="white">
+                <Text fontSize={{ base: 'xs', md: 'md' }} color="white">
                     <span>Humidity:</span> {currentData?.main?.humidity}%
                 </Text>
-                <Text fontSize="md" color="white">
+                <Text fontSize={{ base: 'xs', md: 'md' }} color="white">
                     <span>Wind Speed:</span> {currentData?.wind?.speed} m/s
                 </Text>
             </Box>
@@ -76,6 +77,7 @@ import {
                     onChange={handleTabChange}
                     isFitted
                     variant="soft-rounded"
+                    size={{ base: 'sm', md: 'md' }}
                 >
                     <TabList pb="1rem">
                         <Tab color="white">Morning</Tab>
